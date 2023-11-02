@@ -5,13 +5,10 @@ const getArnieQuotes = async (urls) => {
   // TODO: Implement this function.
   const arniePromises = urls.map((url) => httpGet(url));
   const responses = await Promise.all(arniePromises);
-  for (const response of responses) {
-    const { status, body } = response;
-    if (status === 200) {
-      arnieQuotesList.push({ "Arnie Quote": `${JSON.parse(body).message}` });
-    } else {
-      arnieQuotesList.push({ FAILURE: `${JSON.parse(body).message}` });
-    }
+  for (const { status, body } of responses) {
+    status === 200
+      ? arnieQuotesList.push({ "Arnie Quote": `${JSON.parse(body).message}` })
+      : arnieQuotesList.push({ FAILURE: `${JSON.parse(body).message}` });
   }
   // return results;
   return arnieQuotesList;
